@@ -2,6 +2,7 @@
 const express =require ("express");
 const app=express();
 const mongoose =require ("mongoose");
+const db=require ("./db");
 const userRoute  = require("./Routes/user");
 const productsRoute = require("./Routes/products");
 const authRoute = require("./Routes/auth");
@@ -20,17 +21,17 @@ app.use(cors());
 
 // db
 
-mongoose.connect(
-  process.env.MONGO_URL,
-  { useNewUrlParser: true, useUnifiedTopology: true },
-  () =>{ 
-    try{
-    console.log("database start");
-  }catch(error){
-console.log(error);
-console.log("could not connect to database!");
-  }}
-);
+// mongoose.connect(
+//   process.env.MONGO_URL,
+//   { useNewUrlParser: true, useUnifiedTopology: true },
+//   () =>{ 
+//     try{
+//     console.log("database start");
+//   }catch(error){
+// console.log(error);
+// console.log("could not connect to database!");
+//   }}
+// );
 
 
 // Route

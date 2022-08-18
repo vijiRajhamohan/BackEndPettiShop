@@ -1,8 +1,8 @@
 const route = require("express").Router();
-const KEY = "sk_test_51LUWTrSImtCLG8Db1sd0rt5SzQ5YDvMnPGLP3CTdCayUj1DSy2acObQMb3BK7yt5nzpfk5YQhSZjVoSmLBg9wWaE00QNQQzDhH";
+const KEY = process.env.STRIPE_KEY;
 const stripe = require("stripe")(KEY);
 const uuid = require("uuid").v4;
-
+require("dotenv").config();
 route.post("/payment", async (req, res) => {
     console.log(req.body);
     let error;

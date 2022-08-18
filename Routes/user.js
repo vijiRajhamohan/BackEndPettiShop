@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const db = require("../Models/registerschema");
 const bcrypt = require("bcrypt");
 const { ObjectId } = require("mongodb");
- const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require("./verifyToken");
+
 
 
 

@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const db = require("../Models/registerschema");
 const bcrypt = require("bcrypt");
 const { ObjectId } = require("mongodb");
-// const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require("./verifyToken");
+require("dotenv").config();
 
 
 // Register
@@ -51,7 +51,7 @@ route.post("/login", async (req, res) => {
             return res.status(400).json("Your Password Wrong!");
         }
 
-        let accessToken = jwt.sign({ _id:user._id, email: user.email }, "SecretKey");
+        let accessToken = jwt.sign({ _id: user._id, email: user.email }, process.env.PASS_SEC);
 
         // **** user details and token  **** //
 

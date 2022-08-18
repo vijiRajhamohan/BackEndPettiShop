@@ -1,7 +1,7 @@
 const  route = require ("express").Router();
 const item = require("../Models/productSchema");
 const { ObjectId } = require ("mongodb")
-const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require("./verifyToken");
+
 
 
 
@@ -57,95 +57,6 @@ route.get("/productsLists", async (req, res) => {
   }
 });
 
-// // // filter by Category
-
-// route.get("/productsList/Grocery", async (req, res) => {
-//   try {
-//     const data = await item.find({ category: "Grocery" });
-//     console.log(data)
-//     res.status(200).json(data);
-
-//   } catch (err) {
-//     res.status(500).send({ error: "cannot fetch products" });
-//   }
-// });
-
-// route.get("/productsList/IceCream", async (req, res) => {
-//   try {
-//     const data = await item.find({category:"IceCream"});
-//     console.log(data)
-//     res.status(200).json(data);
-  
-//   } catch (err) {
-//     res.status(500).send({ error: "cannot fetch products" });
-//   }
-// });
-
-// route.get("/productsList/HomeMade", async (req, res) => {
-//   try {
-//     const data = await item.find({ category: "HomeMade" });
-//     console.log(data)
-//     res.status(200).json(data);
-
-//   } catch (err) {
-//     res.status(500).send({ error: "cannot fetch products" });
-//   }
-// });
-
-// route.get("/productsList/HealthDrinks", async (req, res) => {
-//   try {
-//     const data = await item.find({ category: "HealthDrinks" });
-//     console.log(data)
-//     res.status(200).json(data);
-
-//   } catch (err) {
-//     res.status(500).send({ error: "cannot fetch products" });
-//   }
-// });
-
-// route.get("/productsList/Chocolates", async (req, res) => {
-//   try {
-//     const data = await item.find({ category: "Chocolates" });
-//     console.log(data)
-//     res.status(200).json(data);
-
-//   } catch (err) {
-//     res.status(500).send({ error: "cannot fetch products" });
-//   }
-// });
-
-// route.get("/productsList/PersonalCare", async (req, res) => {
-//   try {
-//     const data = await item.find({ category: "PersonalCare" });
-//     console.log(data)
-//     res.status(200).json(data);
-
-//   } catch (err) {
-//     res.status(500).send({ error: "cannot fetch products" });
-//   }
-// });
-
-// route.get("/productsList/PoojaItems", async (req, res) => {
-//   try {
-//     const data = await item.find({ category: "PoojaItems" });
-//     console.log(data)
-//     res.status(200).json(data);
-
-//   } catch (err) {
-//     res.status(500).send({ error: "cannot fetch products" });
-//   }
-// });
-
-// route.get("/productsList/Nostalgia", async (req, res) => {
-//   try {
-//     const data = await item.find({ category: "Nostalgia" });
-//     console.log(data)
-//     res.status(200).json(data);
-
-//   } catch (err) {
-//     res.status(500).send({ error: "cannot fetch products" });
-//   }
-// });
 
 
 

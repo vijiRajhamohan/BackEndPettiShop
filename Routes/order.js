@@ -1,7 +1,5 @@
 const route = require("express").Router();
 const Order = require("../Models/orderSchema");
-// const { ObjectId } = require("mongodb")
-// const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require("./verifyToken");
 
 
 
