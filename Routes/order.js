@@ -49,7 +49,7 @@ route.delete("/order/:id", async (req, res) => {
 });
 
 
-// Get USER Id
+// Get order by USER Id
 route.get("/order/find/:userId", async (req, res) => {
     try {
         const orders = await Order.find({ userId: req.params.userId });
@@ -75,7 +75,7 @@ route.get("/order", async (req, res) => {
 });
 
 // Get order by id
-route.get("/order/find/:id", async (req, res) => {
+route.get("/order/:id", async (req, res) => {
 
     try {
 

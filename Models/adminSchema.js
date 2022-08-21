@@ -1,7 +1,4 @@
-
 const mongoose = require("mongoose");
-
-
 
 const adminschema = new mongoose.Schema({
     name: { type: String, requried: true },
@@ -16,9 +13,5 @@ const adminschema = new mongoose.Schema({
 },
     { timestamps: true }
 );
-
-
-
-
 
 module.exports = mongoose.model("admin", adminschema);

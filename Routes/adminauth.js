@@ -2,7 +2,6 @@ const route = require("express").Router();
 const jwt = require("jsonwebtoken");
 const db = require("../Models/adminSchema");
 const bcrypt = require("bcrypt");
-const { ObjectId } = require("mongodb");
 require("dotenv").config();
 
 

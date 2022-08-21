@@ -1,8 +1,6 @@
 
 const mongoose = require("mongoose");
  
-
-
 const registerSchema = new mongoose.Schema({
   name: { type: String, requried: true },
   email: { type: String, requried: true,unique:true },
@@ -17,9 +15,5 @@ const registerSchema = new mongoose.Schema({
 },
 {timestamps:true}
 );
-
-
-
-
 
 module.exports = mongoose.model("register", registerSchema);

@@ -2,10 +2,6 @@ const route = require("express").Router();
 const jwt = require("jsonwebtoken");
 const db = require("../Models/registerschema");
 const bcrypt = require("bcrypt");
-const { ObjectId } = require("mongodb");
-
-
-
 
 // Get ALL USERS (verifyTokenAndAdmin)
 route.get("/user/find", async (req, res) => {
@@ -21,8 +17,6 @@ route.get("/user/find", async (req, res) => {
   }
 });
 
-
-
 // Get By Id (verifyTokenAndAdmin)
 route.get("/user/find/:id", async (req, res) => {
   try {
@@ -34,10 +28,8 @@ route.get("/user/find/:id", async (req, res) => {
   }
 });
 
-
-
 // Update ( verifyTokenAndAuthorization)
-route.put("/user/:id",async (req, res) => {
+route.put("/user/find/:id", async (req, res) => {
   if (req.body.password) {
     req.body.password = bcrypt.hash(req.body.password, 10);
   }
@@ -52,11 +44,8 @@ route.put("/user/:id",async (req, res) => {
     res.status(200).json(updatedUser);
   } catch (err) {
     res.status(500).json(err);
-
   }
 });
-
-
 
 // DELETE  (verifyTokenAndAdmin or verifyTokenAndAuthorization)
 route.delete("/user/:id", async (req, res) => {
@@ -68,8 +57,6 @@ route.delete("/user/:id", async (req, res) => {
     res.status(500).send({ error: "cannot fetch user by id" });
   }
 });
-
-
 
 // // GET USER STATS (verifyTokenAndAdmin)
 route.get("/user/stats", async (req, res) => {
@@ -90,15 +77,11 @@ route.get("/user/stats", async (req, res) => {
         },
       },
     ]);
-    res.status(200).json(data)
+    res.status(200).json(data);
     res.status(200).json(data);
   } catch (err) {
     res.status(500).json({ error: "cannot fetch " });
   }
-})
-
-
-
-
+});
 
 module.exports = route;

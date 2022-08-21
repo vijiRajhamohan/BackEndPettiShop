@@ -1,15 +1,10 @@
-const  route = require ("express").Router();
+const route = require("express").Router();
 const item = require("../Models/productSchema");
-const { ObjectId } = require ("mongodb")
-
-
-
-
+const { ObjectId } = require("mongodb");
 
 // CREATE  (verifyTokenAndAdmin)
 route.post("/products", async (req, res) => {
   try {
-    
     const data = new item({
       image: req.body.image,
       category: req.body.category,
@@ -31,7 +26,7 @@ route.get("/productsList", async (req, res) => {
   try {
     let products;
     if (qNew) {
-      products = await item.find().sort({ createdAt: -1 }).limit(5)
+      products = await item.find().sort({ createdAt: -1 }).limit(5);
     } else if (qCategory) {
       products = await item.find({
         category: {
@@ -42,8 +37,7 @@ route.get("/productsList", async (req, res) => {
       products = await item.find();
     }
     res.status(200).json(products);
-  }
-  catch (err) {
+  } catch (err) {
     res.status(500).send("error");
   }
 });
@@ -57,21 +51,15 @@ route.get("/productsLists", async (req, res) => {
   }
 });
 
-
-
-
-
- 
 // Get Product By Id
 route.get("/productsLists/:id", async (req, res) => {
   try {
-    const data = await item.findOne({_id: ObjectId(req.params.id)});
+    const data = await item.findOne({ _id: ObjectId(req.params.id) });
     res.status(200).json(data);
   } catch (err) {
-    res.status(500).send({error:"cannot fetch product by id"});
+    res.status(500).send({ error: "cannot fetch product by id" });
   }
 });
-
 
 // Update  (verifyTokenAndAdmin)
 route.put("/productsDetails/:id", async (req, res) => {
@@ -86,16 +74,13 @@ route.put("/productsDetails/:id", async (req, res) => {
     res.status(200).json(updatedProduct);
   } catch (err) {
     res.status(500).json(err);
-
   }
 });
-
-
 
 // Delete  (verifyTokenAndAdmin)
 route.delete("/productsDetails/:id", async (req, res) => {
   try {
-     await item.findByIdAndDelete(req.params.id);
+    await item.findByIdAndDelete(req.params.id);
 
     res.status(200).json("Product has been Deleted....");
   } catch (err) {
@@ -103,21 +88,19 @@ route.delete("/productsDetails/:id", async (req, res) => {
   }
 });
 
-
 // Search
 route.get("/productsList/search/:key", async (req, res) => {
   try {
-    const result = await item.find({ 
-      "$or":[
-        {name:{$regex:req.params.key}}
+    const result = await item.find({
+      $or: [
+        { name: { $regex: req.params.key } },
         // {category:{$regex:req.params.key}}
-      ]
-     });
+      ],
+    });
     res.status(200).json(result);
   } catch (err) {
     res.status(500).send({ error: "cannot fetch product by id" });
   }
 });
 
-
-module.exports=route;
+module.exports = route;
