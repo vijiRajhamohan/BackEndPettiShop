@@ -1,8 +1,7 @@
 const route = require("express").Router();
 const item = require("../Models/productSchema");
-const { ObjectId } = require("mongodb");
 
-// CREATE  (verifyTokenAndAdmin)
+// CREATE
 route.post("/products", async (req, res) => {
   try {
     const data = new item({
@@ -54,14 +53,14 @@ route.get("/productsLists", async (req, res) => {
 // Get Product By Id
 route.get("/productsLists/:id", async (req, res) => {
   try {
-    const data = await item.findOne({ _id: ObjectId(req.params.id) });
+    const data = await item.findById(req.params.id);
     res.status(200).json(data);
   } catch (err) {
     res.status(500).send({ error: "cannot fetch product by id" });
   }
 });
 
-// Update  (verifyTokenAndAdmin)
+// Update
 route.put("/productsDetails/:id", async (req, res) => {
   try {
     const updatedProduct = await item.findByIdAndUpdate(
@@ -77,27 +76,12 @@ route.put("/productsDetails/:id", async (req, res) => {
   }
 });
 
-// Delete  (verifyTokenAndAdmin)
+// Delete
 route.delete("/productsDetails/:id", async (req, res) => {
   try {
     await item.findByIdAndDelete(req.params.id);
 
     res.status(200).json("Product has been Deleted....");
-  } catch (err) {
-    res.status(500).send({ error: "cannot fetch product by id" });
-  }
-});
-
-// Search
-route.get("/productsList/search/:key", async (req, res) => {
-  try {
-    const result = await item.find({
-      $or: [
-        { name: { $regex: req.params.key } },
-        // {category:{$regex:req.params.key}}
-      ],
-    });
-    res.status(200).json(result);
   } catch (err) {
     res.status(500).send({ error: "cannot fetch product by id" });
   }

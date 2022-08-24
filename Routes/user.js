@@ -3,11 +3,10 @@ const jwt = require("jsonwebtoken");
 const db = require("../Models/registerschema");
 const bcrypt = require("bcrypt");
 
-// Get ALL USERS (verifyTokenAndAdmin)
+// Get ALL USERS
 route.get("/user/find", async (req, res) => {
   const query = req.query.new;
   try {
-    // const users = await db.find();
     const users = query
       ? await db.find().sort({ _id: -1 }).limit(1)
       : await db.find();
@@ -17,7 +16,7 @@ route.get("/user/find", async (req, res) => {
   }
 });
 
-// Get By Id (verifyTokenAndAdmin)
+// Get By Id
 route.get("/user/find/:id", async (req, res) => {
   try {
     const user = await db.findById(req.params.id);
@@ -28,7 +27,7 @@ route.get("/user/find/:id", async (req, res) => {
   }
 });
 
-// Update ( verifyTokenAndAuthorization)
+// Update
 route.put("/user/find/:id", async (req, res) => {
   if (req.body.password) {
     req.body.password = bcrypt.hash(req.body.password, 10);
@@ -47,7 +46,7 @@ route.put("/user/find/:id", async (req, res) => {
   }
 });
 
-// DELETE  (verifyTokenAndAdmin or verifyTokenAndAuthorization)
+// DELETE
 route.delete("/user/:id", async (req, res) => {
   try {
     const user = await db.findByIdAndDelete(req.params.id);
@@ -55,32 +54,6 @@ route.delete("/user/:id", async (req, res) => {
     res.status(200).json("User has been Deleted....");
   } catch (err) {
     res.status(500).send({ error: "cannot fetch user by id" });
-  }
-});
-
-// // GET USER STATS (verifyTokenAndAdmin)
-route.get("/user/stats", async (req, res) => {
-  const date = new Date();
-  const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
-  try {
-    const data = await db.aggregate([
-      { $match: { createdAt: { $gte: lastYear } } },
-      {
-        $project: {
-          month: { $month: "$createdAt" },
-        },
-      },
-      {
-        $group: {
-          _id: "$month",
-          total: { $sum: 1 },
-        },
-      },
-    ]);
-    res.status(200).json(data);
-    res.status(200).json(data);
-  } catch (err) {
-    res.status(500).json({ error: "cannot fetch " });
   }
 });
 
