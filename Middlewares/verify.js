@@ -7,17 +7,17 @@ async function TokenVerification(req, res, next) {
         if (req.headers && req.headers.authorization) {
             const [_, token] = req.headers.authorization.split(" ");
             const user = await jwt.verify(token, process.env.PASS_SEC);
-            console.log(user)
-            if (user.isAdmin) {
+            console.log(user.role)
+            if (user.role === "admin") {
                 const admin = await adb.findOne({ email: user.email })
-                console.log(user)
                 if (admin) {
                     console.log("admin")
                     req.user = user
+                    console.log(req.user)
                     next();
                 }
             }
-            else if (!user.isAdmin) {
+            else if (user.role === "user") {
                 const users = await udb.findOne({ email: user.email })
                 if (users) {
                     console.log("user")

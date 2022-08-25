@@ -17,9 +17,9 @@ route.get("/user/find", async (req, res) => {
 });
 
 // Get By Id
-route.get("/user/find/:id", async (req, res) => {
+route.get("/user/find/id", async (req, res) => {
   try {
-    const user = await db.findById(req.params.id);
+    const user = await db.findById(req.user._id);
     const { password, ...others } = user._doc;
     res.status(200).json(others);
   } catch (err) {

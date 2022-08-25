@@ -52,7 +52,7 @@ route.delete("/order/:id", async (req, res) => {
 // Get order by USER Id
 route.get("/order/find/:userId", async (req, res) => {
     try {
-        const orders = await Order.find({ userId: req.params.userId });
+        const orders = await Order.find({ userId: req.user._id });
         res.status(200).json(orders);
     } catch (err) {
         res.status(500).send({ error: "cannot fetch " });

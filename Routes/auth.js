@@ -20,6 +20,7 @@ route.post("/register", async (req, res) => {
       mobile: req.body.mobile,
       address: req.body.address,
       pincode: req.body.pincode,
+      role: "user"
     });
     let user = await data.save();
     res.status(200).json(user);
@@ -46,7 +47,7 @@ route.post("/login", async (req, res) => {
     }
 
     let accessToken = jwt.sign(
-      { _id: user._id, email: user.email },
+      { _id: user._id, email: user.email, role: user.role },
       process.env.PASS_SEC
     );
 
