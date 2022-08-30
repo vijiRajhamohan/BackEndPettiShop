@@ -1,20 +1,34 @@
 const route = require("express").Router();
 const item = require("../Models/productSchema");
+const cloudinary = require("../Models/cloudinary");
 
 // CREATE
+
 route.post("/products", async (req, res) => {
+  const { image, name, category, quantity, price } = req.body;
+
   try {
-    const data = new item({
-      image: req.body.image,
-      category: req.body.category,
-      name: req.body.name,
-      quantity: req.body.quantity,
-      price: req.body.price,
-    });
-    const product = await data.save();
-    res.status(200).json(product);
-  } catch (err) {
-    res.status(500).send("error");
+    if (image) {
+      const uploadedResponse = await cloudinary.uploader.upload(image, {
+        upload_preset: "petti_shop",
+      });
+
+      if (uploadedResponse) {
+        const product = new item({
+          image: uploadedResponse,
+          name,
+          category,
+          quantity,
+          price,
+        });
+
+        const savedProduct = await product.save();
+        res.status(200).send(savedProduct);
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
   }
 });
 
@@ -63,14 +77,21 @@ route.get("/productsLists/:id", async (req, res) => {
 // Update
 route.put("/productsDetails/:id", async (req, res) => {
   try {
-    const updatedProduct = await item.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: req.body,
-      },
-      { new: true }
-    );
-    res.status(200).json(updatedProduct);
+    if (req.body.image) {
+       req.body.image = await cloudinary.uploader.upload(req.body.image, {
+        upload_preset: "petti_shop",
+      });
+
+      const updatedProduct = await item.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: req.body,
+        },
+
+        { new: true }
+      );
+      res.status(200).json(updatedProduct);
+    }
   } catch (err) {
     res.status(500).json(err);
   }

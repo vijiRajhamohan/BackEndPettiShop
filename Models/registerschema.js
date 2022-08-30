@@ -8,7 +8,9 @@ const registerSchema = new mongoose.Schema({
   mobile: { type: String, requried: true },
   address: { type: Object, requried: true },
   pincode: { type: String, requried: true },
-  role: { type: String }
+  role: { type: String },
+  resetToken: String,
+  expireToken: Date,
 },
   { timestamps: true }
 );
