@@ -17,7 +17,7 @@ route.get("/user/find", async (req, res) => {
 });
 
 // Get By Id
-route.get("/user/find/id", async (req, res) => {
+route.get("/user/find/:id", async (req, res) => {
   try {
     const user = await db.findById(req.user._id);
     const { password, ...others } = user._doc;
@@ -28,13 +28,13 @@ route.get("/user/find/id", async (req, res) => {
 });
 
 // Update
-route.put("/user/find/:id", async (req, res) => {
+route.put("/userupdate", async (req, res) => {
   if (req.body.password) {
     req.body.password = bcrypt.hash(req.body.password, 10);
   }
   try {
     const updatedUser = await db.findByIdAndUpdate(
-      req.params.id,
+      req.user._id,
       {
         $set: req.body,
       },
