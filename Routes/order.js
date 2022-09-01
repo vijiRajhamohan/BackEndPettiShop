@@ -1,14 +1,69 @@
 const route = require("express").Router();
 const Order = require("../Models/orderSchema");
+const nodemailer = require("nodemailer");
+const sendgridtransport = require("nodemailer-sendgrid-transport")
 
+// Email conformation
+let transporter = nodemailer.createTransport({
+    host: 'mail.gmail.com',
+    port: 587,
+    secure: true,
+    service: "gmail",
+    auth: {
+        user: "pettishop2022@gmail.com",
+        pass: "tnitmxgdlhcpxsoq",
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+})
 
+route.post("/order/mail", async (req, res) => {
+    const { email,total,product ,Address} = req.body;
+    console.log(email);
+    let mailOptions = {
+        from: "pettishop2022@gmail.com",
+        to: `${email}`,
+        subject: "Test mail for pettishop",
+        html: `<div className="email" style="
+      border: 1px solid black;
+      padding: 20px;
+      font-family: sans-serif;
+      line-height: 2;
+      font-size: 20px; 
+      ">
+     <p>Product Name:${product.map((x) => x.name)}</p>
+      <p>Total:${total}</p>
+    
+     
+     
 
+  <p>Thank You For Shopping, Shop Again ! </p>
+       </div>`
+    };
 
+    await transporter.sendMail(mailOptions, function (err, data) {
+        if (err) {
+            console.log(err);
+            res.json({ status: "Email not sent" });
+        } else {
+            console.log("Email sent successfully");
+            res.json({ status: "Email sent" });
+        }
+    });
+})
 
 // CREATE  
 route.post("/order", async (req, res) => {
-    const newOrder = new Order(req.body);
+   
     try {
+        const newOrder = new Order({
+            userid: req.user._id,
+            email:req.user.email,
+            product: req.body.product,
+            Address: req.body.Address,
+            total: req.body.total,
+        });
         const savedOrder = await newOrder.save();
         res.status(200).json(savedOrder);
     } catch (err) {
@@ -50,9 +105,9 @@ route.delete("/order/:id", async (req, res) => {
 
 
 // Get order by USER Id
-route.get("/order/find/:userId", async (req, res) => {
+route.get("/order/find/:userid", async (req, res) => {
     try {
-        const orders = await Order.find( req.user._id );
+        const orders = await Order.find( {userid:req.user._id} );
         res.status(200).json(orders);
     } catch (err) {
         res.status(500).send({ error: "cannot fetch " });
