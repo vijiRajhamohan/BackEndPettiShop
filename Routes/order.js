@@ -2,6 +2,8 @@ const route = require("express").Router();
 const Order = require("../Models/orderSchema");
 const nodemailer = require("nodemailer");
 const sendgridtransport = require("nodemailer-sendgrid-transport")
+require("dotenv").config();
+
 
 // Email conformation
 let transporter = nodemailer.createTransport({
@@ -10,8 +12,8 @@ let transporter = nodemailer.createTransport({
     secure: true,
     service: "gmail",
     auth: {
-        user: "pettishop2022@gmail.com",
-        pass: "tnitmxgdlhcpxsoq",
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
     },
     tls: {
         rejectUnauthorized: false
@@ -19,26 +21,22 @@ let transporter = nodemailer.createTransport({
 })
 
 route.post("/order/mail", async (req, res) => {
-    const { email,total,product ,Address} = req.body;
+    const { email,total,product} = req.body;
     console.log(email);
     let mailOptions = {
-        from: "pettishop2022@gmail.com",
+        from: process.env.EMAIL,
         to: `${email}`,
-        subject: "Test mail for pettishop",
-        html: `<div className="email" style="
+        subject: "Order Details",
+        html: `<div className="card email" style="
       border: 1px solid black;
       padding: 20px;
       font-family: sans-serif;
       line-height: 2;
       font-size: 20px; 
       ">
-     <p>Product Name:${product.map((x) => x.name)}</p>
-      <p>Total:${total}</p>
-    
-     
-     
-
-  <p>Thank You For Shopping, Shop Again ! </p>
+      <p>Product Name:${product.map((x) => x.name)}</p>
+      <p>Total:Rs.${total}</p>
+      <p style="color-green">Thank You For Shopping, Shop Again ! </p>
        </div>`
     };
 
