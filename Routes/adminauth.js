@@ -18,6 +18,8 @@ route.post("/register", async (req, res) => {
       email: req.body.email,
       password: pass,
       mobile: req.body.mobile,
+      address: req.body.address,
+      pincode: req.body.pincode,
       role:"admin"
     });
     let admin = await data.save();
