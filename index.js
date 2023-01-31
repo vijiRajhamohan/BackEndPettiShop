@@ -22,7 +22,7 @@ app.use(cors());
 // Route
 app.use("/api/admin", adminauthRoute);
 app.use("/api", authRoute);
-app.use(verification);
+// app.use(verification);
 app.use("/api", userRoute);
 app.use("/api", productsRoute);
 app.use("/api", orderRoute);
